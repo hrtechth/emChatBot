@@ -153,8 +153,8 @@ function receivedMessage(event) {
     if (!sessionIds.has(senderID)) {
         sessionIds.set(senderID, uuid.v1());
     }
-    //console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
-    //console.log(JSON.stringify(message));
+    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
+    console.log(JSON.stringify(message));
 
     var isEcho = message.is_echo;
     var messageId = message.mid;
@@ -203,13 +203,6 @@ function handleEcho(messageId, appId, metadata) {
 }
 
 function handleDialogFlowAction(sender, action, messages, contexts, parameters) {
-
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
-    var timeOfMessage = event.timestamp;
-    var message = event.message;
-
-    console.log("senderId %s recipientID %s", senderID, recipientID);
 
     switch (action) {
         case "get-facebook-user":
