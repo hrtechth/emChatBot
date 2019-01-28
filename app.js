@@ -206,7 +206,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
     switch (action) {
         case "get-facebook-user":
-            sendTextMessage(sender, "Hello");
+            sendTextMessage(sender, "Hello " + sender);
             break;
         default:
             //unhandled action, just send back the text
