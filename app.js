@@ -90,12 +90,12 @@ app.get('/', function (req, res) {
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
     console.log("request");
-//    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {
+    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {
         res.status(200).send(req.query['hub.challenge']);
-//    } else {
-//        console.error("Failed validation. Make sure the validation tokens match.");
-//        res.sendStatus(403);
-//    }
+    } else {
+        console.error("Failed validation. Make sure the validation tokens match.");
+        res.sendStatus(403);
+    }
 })
 
 /*
@@ -107,9 +107,7 @@ app.get('/webhook/', function (req, res) {
  */
 app.post('/webhook/', function (req, res) {
     var data = req.body;
-    console.log(JSON.stringify(data)); 
-
-
+    console.log("Request: " + JSON.stringify(data)); 
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
