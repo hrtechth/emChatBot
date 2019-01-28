@@ -6,8 +6,11 @@ const express = require('express');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const request = require('request');
+const pg = require('pg');
 const app = express();
 const uuid = require('uuid');
+
+pg.defaults.ssl = true;
 
 
 // Messenger API parameters
@@ -34,6 +37,9 @@ if (!config.FB_APP_SECRET) {
 }
 if (!config.SERVER_URL) { //used for ink to static files
     throw new Error('missing SERVER_URL');
+}
+if (!config.PG_CONFIG) { //Postgresql Config Object
+    throw new Error('missing PG_CONFIG');
 }
 
 
@@ -748,10 +754,36 @@ function greetUserText(userId) {
 			var user = JSON.parse(body);
 			console.log('getUserData: ' + user);
 			if (user.first_name) {
-				console.log("FB user: %s %s, %s",
-					user.first_name, user.last_name, user.profile_pic);
+				console.log("FB user: %s %s, %s", user.first_name, user.last_name, user.profile_pic);
 
-				sendTextMessage(userId, "สวัสดีค่ะคุณ" + user.first_name + '! ' +
+                var pool = new pg.Pool(config.PG_CONFIG);
+                pool.connect(function(err, client, done) {
+                if (err) {
+                    return console.error('Error acquiring client', err.stack);
+                }
+                var rows = [];
+                client.query(`SELECT fb_id FROM sfusers WHERE fb_id='${userId}' LIMIT 1`,
+                    function(err, result) {
+                        if (err) {
+                            console.log('Query error: ' + err);
+                        } else {
+                            if (result.rows.length === 0) {
+                                let sql = 'INSERT INTO users (fb_id) ' +
+									'VALUES ($1)';
+                                client.query(sql,
+                                    [
+                                        userId,
+                                        user.first_name,
+                                        user.last_name,
+                                        user.profile_pic
+                                    ]);
+                            }
+                        }
+                    });
+                });
+                pool.end();
+
+				sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.first_name + '! ' +
                     'ต้องการสอบถามข้อมูลด้านใดคะ');
 			} else {
 				console.log("Cannot get data for fb user with id",
