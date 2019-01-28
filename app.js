@@ -209,11 +209,11 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     var timeOfMessage = event.timestamp;
     var message = event.message;
 
-    var sendText = `senderId ${senderID} \nrecipientID ${recipientID} \ntimeOfMessage ${timeOfMessage} \nmessage ${message}`;
+    console.log("senderId %s recipientID %s", senderID, recipientID);
 
     switch (action) {
         case "get-facebook-user":
-            sendTextMessage(sender, sendText);
+            sendTextMessage(sender, "Hello");
             break;
         default:
             //unhandled action, just send back the text
