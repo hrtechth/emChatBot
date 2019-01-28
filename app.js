@@ -204,6 +204,9 @@ function handleEcho(messageId, appId, metadata) {
 
 function handleDialogFlowAction(sender, action, messages, contexts, parameters) {
     switch (action) {
+        case "get-facebook-user":
+            sendTextMessage(sender, "Hello Facebook");
+            break;
         default:
             //unhandled action, just send back the text
             handleMessages(messages, sender);
