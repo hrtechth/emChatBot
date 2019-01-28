@@ -768,15 +768,15 @@ function greetUserText(userId) {
                             console.log('Query error: ' + err);
                         } else {
                             if (result.rows.length === 0) {
+                                console.log("Not found -> Insert");
                                 let sql = 'INSERT INTO sfusers (fb_id) ' +
 									'VALUES ($1)';
                                 client.query(sql,
                                     [
-                                        userId,
-                                        user.first_name,
-                                        user.last_name,
-                                        user.profile_pic
+                                        userId
                                     ]);
+                            } else {
+                                console.log("Found -> No insert");
                             }
                         }
                     });
