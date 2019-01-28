@@ -1,7 +1,7 @@
 module.exports = {
-    FB_PAGE_TOKEN: 'EAAKBLwTyvhwBAIeiW6jB3fzFMcpogcEvpahWBJ1ZARUbZAT1XLlVP47Iu2mzA62pNCdKWhNuw8fZBNgWVBaVKpN5NCtqT98szYhTOqMXWiVqVrty3eNuwTcZCw97lvIsFBk7c9Q8u34C0M9eDERTgkE00Nlh2mNpOYMuPnNg2gZDZD',
+    FB_PAGE_TOKEN: 'EAADLkEs3wb8BACEkQDHCWM5407zSGTDKZAnL19wJNtfsgcGF3myxKiw0GvSdb2PB2kttxkFXrMHrTIrRcWxmnI3w40XGVcJsRm4ByJg0j8wHYDwMkFftrWObRpZCSofxffaFmOLOWzQhMqw9osJfSs709Ycpf15jk3rFdWSQZDZD',
     FB_VERIFY_TOKEN: 'hello-token-zem-emeritis-bot',
-    FB_APP_SECRET: '1415baff8c9929af7c2597ff1ca35b11',
+    FB_APP_SECRET: '711f2aea2a95bfc7cee8eb289be88e2e',
     SERVER_URL: 'https://em-chatbot.herokuapp.com/',
     GOOGLE_PROJECT_ID: 'hr-assistant-th',
     DF_LANGUAGE_CODE: 'th-TH',
