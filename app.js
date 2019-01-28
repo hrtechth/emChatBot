@@ -203,9 +203,17 @@ function handleEcho(messageId, appId, metadata) {
 }
 
 function handleDialogFlowAction(sender, action, messages, contexts, parameters) {
+
+    var senderID = event.sender.id;
+    var recipientID = event.recipient.id;
+    var timeOfMessage = event.timestamp;
+    var message = event.message;
+
+    var sendText = `senderId ${senderID} \nrecipientID ${recipientID} \ntimeOfMessage ${timeOfMessage} \nmessage ${message}`;
+
     switch (action) {
         case "get-facebook-user":
-            sendTextMessage(sender, "Hello Facebook");
+            sendTextMessage(sender, sendText);
             break;
         default:
             //unhandled action, just send back the text
