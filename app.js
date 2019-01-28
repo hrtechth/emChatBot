@@ -751,9 +751,8 @@ function greetUserText(userId) {
 				console.log("FB user: %s %s, %s",
 					user.first_name, user.last_name, user.profile_pic);
 
-				sendTextMessage(userId, "Welcome " + user.first_name + '! ' +
-                    'I can answer frequently asked questions for you ' +
-                    'and I perform job interviews. What can I help you with?');
+				sendTextMessage(userId, "สวัสดีค่ะคุณ" + user.first_name + '! ' +
+                    'ต้องการสอบถามข้อมูลด้านใดคะ');
 			} else {
 				console.log("Cannot get data for fb user with id",
 					userId);
