@@ -752,6 +752,10 @@ function greetUserText(userId) {
 			var user = JSON.parse(body);
 			console.log('getUserData: ' + user);
 			if (user.first_name) {
+
+                sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.first_name + '! ' +
+                    'ต้องการสอบถามข้อมูลด้านใดคะ');
+
 				console.log("FB user: %s %s, %s", user.first_name, user.last_name, user.profile_pic);
 
                 var pool = new pg.Pool(config.PG_CONFIG);
@@ -767,23 +771,28 @@ function greetUserText(userId) {
                         } else {
                             if (result.rows.length === 0) {
                                 console.log("Not found -> Insert");
-                                let sql = 'INSERT INTO sfusers (fb_id) ' +
+                                sendTextMessage('ไม่พบข้อมูล กรุณาลงทะเบียน');
+                            /*    let sql = 'INSERT INTO sfusers (fb_id) ' +
 									'VALUES ($1)';
                                 client.query(sql,
                                     [
                                         userId
                                     ]);
+                            */
                             } else {
                                 console.log(result.rows);
                                 console.log("Found -> No insert");
+                                if(result.rows.sf_id){
+                                    sendTextMessage('SF User -> ' + result.rows.sf_id );
+                                } else {
+                                    sendTextMessage('ไม่พบข้อมูล กรุณาลงทะเบียน');
+                                }
                             }
                         }
                     });
                 });
                 pool.end();
 
-				sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.first_name + '! ' +
-                    'ต้องการสอบถามข้อมูลด้านใดคะ');
 			} else {
 				console.log("Cannot get data for fb user with id",
 					userId);
