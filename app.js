@@ -223,7 +223,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
 function registerSfUserToDb(sender) {
 
-    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'Emeritis_RI\')?$select=userId&$format=json', 
+    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'Emeritis_RI\')?$select=userId,firstName,lastName&$format=json', 
         {
             'auth': {
                     'user': 'Emeritis_RI@thestockexT1',
@@ -234,7 +234,9 @@ function registerSfUserToDb(sender) {
 		if (!error && response.statusCode == 200) {
 
 			var user = JSON.parse(body);
-			console.log('getUserData: ' + JSON.stringify(user));
+            console.log('getUserData: ' + user.d.userId);
+            sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.d.userId + ': ' +
+                user.d.firstName + " " + user.d.lastName);
 	/*		if (user.first_name) {
 
                 sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.first_name + '! ' +
