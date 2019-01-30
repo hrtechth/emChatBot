@@ -774,6 +774,7 @@ function greetUserText(userId) {
                                         userId
                                     ]);
                             } else {
+                                console.log(result.rows);
                                 console.log("Found -> No insert");
                             }
                         }
