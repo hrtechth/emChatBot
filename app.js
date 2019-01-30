@@ -234,7 +234,7 @@ function registerSfUserToDb(sender) {
 		if (!error && response.statusCode == 200) {
 
 			var user = JSON.parse(body);
-			console.log('getUserData: ' + user);
+			console.log('getUserData: ' + JSON.stringify(user));
 	/*		if (user.first_name) {
 
                 sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.first_name + '! ' +
