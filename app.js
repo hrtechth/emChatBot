@@ -760,7 +760,7 @@ function greetUserText(userId) {
                     return console.error('Error acquiring client', err.stack);
                 }
                 var rows = [];
-                client.query(`SELECT fb_id FROM sfusers WHERE fb_id='${userId}' LIMIT 1`,
+                client.query(`SELECT fb_id, sf_id FROM sfusers WHERE fb_id='${userId}' LIMIT 1`,
                     function(err, result) {
                         if (err) {
                             console.log('Query error: ' + err);
