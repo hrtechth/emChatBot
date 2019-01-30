@@ -771,7 +771,7 @@ function greetUserText(userId) {
                         } else {
                             if (result.rows.length === 0) {
                                 console.log("Not found -> Insert");
-                                sendTextMessage('ไม่พบข้อมูล กรุณาลงทะเบียน');
+                                sendTextMessage(userId,'ไม่พบข้อมูล กรุณาลงทะเบียน');
                             /*    let sql = 'INSERT INTO sfusers (fb_id) ' +
 									'VALUES ($1)';
                                 client.query(sql,
@@ -783,9 +783,9 @@ function greetUserText(userId) {
                                 console.log(result.rows);
                                 console.log("Found -> No insert");
                                 if(result.rows.sf_id){
-                                    sendTextMessage('SF User -> ' + result.rows.sf_id );
+                                    sendTextMessage(userId,'SF User -> ' + result.rows.sf_id );
                                 } else {
-                                    sendTextMessage('ไม่พบข้อมูล กรุณาลงทะเบียน');
+                                    sendTextMessage(userId,'ไม่พบข้อมูล กรุณาลงทะเบียน');
                                 }
                             }
                         }
