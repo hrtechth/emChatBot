@@ -873,7 +873,7 @@ function greetUserText(userId) {
 
                                             var user = JSON.parse(body);
                                             console.log('getUserData: ' + user.d.userId);
-                                            sendTextMessage(sender, "สวัสดีค่ะคุณ " + user.d.userId + ': ' +
+                                            sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.d.userId + ': ' +
                                                 user.d.firstName + " " + user.d.lastName);
                                         } else {
                                             console.error(response.error);
