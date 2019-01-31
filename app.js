@@ -857,7 +857,7 @@ function greetUserText(userId) {
                             */
                             } else {
                                 console.log(result.rows);
-                                console.log("Found -> No insert");
+                                console.log("Found -> No insert" + result.rows.sf_id);
                                 if(result.rows.sf_id){
                                     sendTextMessage(userId,'SF User -> ' + result.rows.sf_id );
                                     request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + result.rows.sf_id + '\')?$select=userId,firstName,lastName&$format=json', 
