@@ -12,6 +12,8 @@ const uuid = require('uuid');
 
 pg.defaults.ssl = true;
 
+const webviews = require('./routes/webviews');
+
 
 // Messenger API parameters
 if (!config.FB_PAGE_TOKEN) {
@@ -61,11 +63,7 @@ app.use(bodyParser.urlencoded({
 
 // Process application/json
 app.use(bodyParser.json());
-
-
-
-
-
+app.use('/webviews', webviews);
 
 const credentials = {
     client_email: config.GOOGLE_CLIENT_EMAIL,
