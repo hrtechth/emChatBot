@@ -258,7 +258,7 @@ function getLeaveBalance(sender) {
                                 console.log(body);
                                 var user = JSON.parse(body);
                                 console.log('leave Banlance: ' + user.d.results[0].balance);
-                                sendTextMessage(sender, "วันลาพักร้อนคงเหลือ " + user.d.balance + " วัน");
+                                sendTextMessage(sender, "วันลาพักร้อนคงเหลือ " + user.d.results[0].balance + " วัน");
                             } else {
                                 console.error(response.error);
                             }
