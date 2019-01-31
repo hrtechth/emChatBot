@@ -255,9 +255,10 @@ function getLeaveBalance(sender) {
                         }, function (error, response, body) {
                             if (!error && response.statusCode == 200) {
 
+                                console.log(body);
                                 var user = JSON.parse(body);
                                 console.log('leave Banlance: ' + user.d.balance);
-                                sendTextMessage(userId, "วันลาพักร้อนคงเหลือ " + user.d.balance + " วัน");
+                                sendTextMessage(sender, "วันลาพักร้อนคงเหลือ " + user.d.balance + " วัน");
                             } else {
                                 console.error(response.error);
                             }
@@ -265,7 +266,7 @@ function getLeaveBalance(sender) {
                         });
 
                     } else {
-                        sendTextMessage(userId,'ไม่พบข้อมูล กรุณาลงทะเบียน');
+                        sendTextMessage(sender,'ไม่พบข้อมูล กรุณาลงทะเบียน');
                     }
                 }
             }
