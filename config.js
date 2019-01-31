@@ -15,5 +15,8 @@ module.exports = {
         port: 5432,
         max: 10,
         idleTimeoutMillis: 30000
-    }
+    },
+    SF_USER: 'Emeritis_RI@thestockexT1',
+    SF_PASSWORD: 'Emeritis@2020',
+    SF_APIURL: 'https://api10preview.sapsf.com:443'
 };

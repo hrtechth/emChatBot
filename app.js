@@ -860,12 +860,12 @@ function greetUserText(userId) {
                                 var sfuser = result.rows[0]['sf_id'];
                                 console.log("Found -> No insert " + sfuser);
                                 if(sfuser){
-                                    sendTextMessage(userId,'SF User -> ' + sfuser );
-                                    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + sfuser + '\')?$select=userId,firstName,lastName&$format=json', 
+                                    //sendTextMessage(userId,'SF User -> ' + sfuser );
+                                    request.get(config.SF_APIURL + '/odata/v2/User(\'' + sfuser + '\')?$select=userId,firstName,lastName&$format=json', 
                                     {
                                         'auth': {
-                                                'user': 'Emeritis_RI@thestockexT1',
-                                                'pass': 'Emeritis@2020',
+                                                'user': config.SF_USER,
+                                                'pass': config.SF_PASSWORD,
                                                 'sendImmediately': false
                                         }
                                     }, function (error, response, body) {
