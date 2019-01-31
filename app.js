@@ -857,28 +857,29 @@ function greetUserText(userId) {
                             */
                             } else {
                                 console.log(result.rows);
-                                console.log("Found -> No insert" + result.rows.sf_id);
-                                if(result.rows.sf_id){
-                                    sendTextMessage(userId,'SF User -> ' + result.rows.sf_id );
-                                    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + result.rows.sf_id + '\')?$select=userId,firstName,lastName&$format=json', 
+                                var sfuser = JSON.parse(result.rows);
+                                console.log("Found -> No insert " + sfuser.sf_id);
+                                if(sfuser.sf_id){
+                                    sendTextMessage(userId,'SF User -> ' + sfuser.sf_id );
+                                    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + sfuser.sf_id + '\')?$select=userId,firstName,lastName&$format=json', 
                                     {
                                         'auth': {
                                                 'user': 'Emeritis_RI@thestockexT1',
                                                 'pass': 'Emeritis@2020',
                                                 'sendImmediately': false
-                                    }
-                                }, function (error, response, body) {
-                                    if (!error && response.statusCode == 200) {
+                                        }
+                                    }, function (error, response, body) {
+                                        if (!error && response.statusCode == 200) {
 
-                                        var user = JSON.parse(body);
-                                        console.log('getUserData: ' + user.d.userId);
-                                        sendTextMessage(sender, "สวัสดีค่ะคุณ " + user.d.userId + ': ' +
-                                            user.d.firstName + " " + user.d.lastName);
-                                    } else {
-                                        console.error(response.error);
-                                    }
+                                            var user = JSON.parse(body);
+                                            console.log('getUserData: ' + user.d.userId);
+                                            sendTextMessage(sender, "สวัสดีค่ะคุณ " + user.d.userId + ': ' +
+                                                user.d.firstName + " " + user.d.lastName);
+                                        } else {
+                                            console.error(response.error);
+                                        }
 
-                                });
+                                    });
 
                                 } else {
                                     sendTextMessage(userId,'ไม่พบข้อมูล กรุณาลงทะเบียน');
