@@ -3,14 +3,20 @@
 <head>
     <title>SF Register</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <link rel="stylesheet" href="/webview.css" />
 </head>
 <body>
 <div class="container">
-    SAMPLE WEBVIEW
+    <h3>Register with SuccessFactors User</h3>
+    <form action="/webviews/save" method="get">
+        <input type="hidden" name="psid" id="psid">
+        <h5>SF User ID</h5>
+        <input type="text" name="sfinput" value="1"> Weekly<br/>
+       
+        <button id="submitButton" type="Register">Submit</button>
+    </form>
 </div>
-
-
 
 <script>
     (function(d, s, id){
@@ -22,7 +28,14 @@
     }(document, 'script', 'Messenger'));
     window.extAsyncInit = function() {
         // the Messenger Exstensions JS SDK is done loading
+        document.getElementById('submitButton').addEventListener('click', function() {
+            MessengerExtensions.requestCloseBrowser(function success() {
+                // webview closed
+            }, function error(err) {
+                // an error occured
+            });
+        });
     };
 </script>
 </body>
-</html> 
+</html>
