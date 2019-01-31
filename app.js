@@ -45,7 +45,7 @@ if (!config.PG_CONFIG) { //Postgresql Config Object
 }
 
 
-
+app.set('view engine', 'ejs');
 app.set('port', (process.env.PORT || 5000))
 
 //verify request came from facebook
