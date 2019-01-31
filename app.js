@@ -857,11 +857,11 @@ function greetUserText(userId) {
                             */
                             } else {
                                 console.log(result.rows);
-                                var sfuser = JSON.parse(result.rows);
-                                console.log("Found -> No insert " + sfuser.sf_id);
-                                if(sfuser.sf_id){
-                                    sendTextMessage(userId,'SF User -> ' + sfuser.sf_id );
-                                    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + sfuser.sf_id + '\')?$select=userId,firstName,lastName&$format=json', 
+                                var sfuser = result.rows[0]['sf_id'];
+                                console.log("Found -> No insert " + sfuser);
+                                if(sfuser){
+                                    sendTextMessage(userId,'SF User -> ' + sfuser );
+                                    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + sfuser + '\')?$select=userId,firstName,lastName&$format=json', 
                                     {
                                         'auth': {
                                                 'user': 'Emeritis_RI@thestockexT1',
