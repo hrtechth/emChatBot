@@ -827,8 +827,10 @@ function greetUserText(userId) {
 			console.log('getUserData: ' + user);
 			if (user.first_name) {
 
+                /*
                 sendTextMessage(userId, "สวัสดีค่ะคุณ " + user.first_name + '! ' +
                     'ต้องการสอบถามข้อมูลด้านใดคะ');
+                */
 
 				console.log("FB user: %s %s, %s", user.first_name, user.last_name, user.profile_pic);
 
@@ -858,6 +860,26 @@ function greetUserText(userId) {
                                 console.log("Found -> No insert");
                                 if(result.rows.sf_id){
                                     sendTextMessage(userId,'SF User -> ' + result.rows.sf_id );
+                                    request.get('https://api10preview.sapsf.com:443/odata/v2/User(\'' + result.rows.sf_id + '\')?$select=userId,firstName,lastName&$format=json', 
+                                    {
+                                        'auth': {
+                                                'user': 'Emeritis_RI@thestockexT1',
+                                                'pass': 'Emeritis@2020',
+                                                'sendImmediately': false
+                                    }
+                                }, function (error, response, body) {
+                                    if (!error && response.statusCode == 200) {
+
+                                        var user = JSON.parse(body);
+                                        console.log('getUserData: ' + user.d.userId);
+                                        sendTextMessage(sender, "สวัสดีค่ะคุณ " + user.d.userId + ': ' +
+                                            user.d.firstName + " " + user.d.lastName);
+                                    } else {
+                                        console.error(response.error);
+                                    }
+
+                                });
+
                                 } else {
                                     sendTextMessage(userId,'ไม่พบข้อมูล กรุณาลงทะเบียน');
                                 }
