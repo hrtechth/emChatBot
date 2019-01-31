@@ -212,6 +212,9 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         case "get-facebook-user":
             sendTextMessage(sender, "Hello " + sender);
             break;
+        case "get-leave-balance":
+            getLeaveBalance(sender);
+            break;            
         case "sf-register":
             registerSfUserToDb(sender);
             break;
@@ -219,6 +222,57 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             //unhandled action, just send back the text
             handleMessages(messages, sender);
     }
+}
+
+function getLeaveBalance(sender) {
+    
+    var pool = new pg.Pool(config.PG_CONFIG);
+    pool.connect(function(err, client, done) {
+    if (err) {
+        return console.error('Error acquiring client', err.stack);
+    }
+    var rows = [];
+    client.query(`SELECT fb_id, sf_id FROM sfusers WHERE fb_id='${sender}' LIMIT 1`,
+        function(err, result) {
+            if (err) {
+                console.log('Query error: ' + err);
+            } else {
+                if (result.rows.length === 0) {
+                    console.log("Not found -> Insert");
+                    sendTextMessage(sender,'ไม่พบข้อมูล กรุณาลงทะเบียน');
+                } else {
+                    console.log(result.rows);
+                    var sfuser = result.rows[0]['sf_id'];
+                    console.log("Found -> No insert " + sfuser);
+                    if(sfuser){
+                        request.get(config.SF_APIURL + '/odata/v2/EmpTimeAccountBalance?$filter=userId eq \'' + sfuser + '\'  and timeAccountType eq \'Annual Leave\'&$format=json', 
+                        {
+                            'auth': {
+                                    'user': config.SF_USER,
+                                    'pass': config.SF_PASSWORD,
+                                    'sendImmediately': false
+                            }
+                        }, function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+
+                                var user = JSON.parse(body);
+                                console.log('leave Banlance: ' + user.d.balance);
+                                sendTextMessage(userId, "วันลาพักร้อนคงเหลือ " + user.d.balance + " วัน");
+                            } else {
+                                console.error(response.error);
+                            }
+
+                        });
+
+                    } else {
+                        sendTextMessage(userId,'ไม่พบข้อมูล กรุณาลงทะเบียน');
+                    }
+                }
+            }
+        });
+    });
+    pool.end();
+
 }
 
 function registerSfUserToDb(sender) {
