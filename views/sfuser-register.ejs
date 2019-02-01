@@ -33,7 +33,7 @@
                             </div>
                     </div>
                     <div class="card-action">
-                            <button id="unregButton" class="btn waves-effect waves-light " type="submit" name="action">Unregister
+                            <button formaction="/webviews/unregister" id="unregButton" class="btn waves-effect waves-light " type="submit" name="action">Unregister
                                     <i class="material-icons right">cancel</i>
                             </button>
                             <button formaction="/webviews/save" id="submitButton" class="btn waves-effect waves-light " type="submit" name="action">Submit
@@ -65,12 +65,12 @@
                     if(data.sf_id){
                         $('#tbSfinput').val(data.sf_id);
                         document.getElementById("tbSfinput").disabled = true;
-                        //document.getElementById("unregButton").disabled = false;
-                        //document.getElementById("submitButton").disabled = true;
+                        document.getElementById("unregButton").style.visibility = "visible";
+                        document.getElementById("submitButton").style.visibility = "hidden";
                     } else {
                         document.getElementById("tbSfinput").disabled = false;
-                        //document.getElementById("unregButton").disabled = true;
-                        //document.getElementById("submitButton").disabled = false;
+                        document.getElementById("unregButton").style.visibility = "hidden";
+                        document.getElementById("submitButton").style.visibility = "visible";
                     }
                 });
             },
