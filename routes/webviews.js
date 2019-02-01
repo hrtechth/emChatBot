@@ -23,7 +23,7 @@ router.get('/save', function (req, res) {
         if (err) {
             return console.error('Error acquiering client');
         }
-        client.query("UPDATE public.sfusers SET sf_id=$1 WHERE fb_id=$4",
+        client.query("UPDATE public.sfusers SET sf_id=$1 WHERE fb_id=$2",
             [
                 body.sfinput,
                 body.psid
