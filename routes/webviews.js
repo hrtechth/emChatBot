@@ -54,6 +54,7 @@ router.get('/settings', function (req, res){
                 if(err === null) {
                     let settings = [];
                     if (result.rows.length > 0 && result.rows[0]['sf_id']) {
+                        console.log('Result: ' + result);
                         settings = result.rows[0];
                     }
                     res.json(settings);
