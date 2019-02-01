@@ -14,6 +14,7 @@ router.get('/webview', function (req, res){
 router.get('/save', function (req, res){
     let body = req.body;
     let response = `${body.sfinput} psid = ${body.psid}`;
+    console.log(body.psid);
     fbservice.sendTextMessage(body.psid, response);
 });
 
