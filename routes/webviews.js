@@ -35,7 +35,8 @@ router.get('/save', function (req, res) {
                     console.log('ERR: ' + err);
                 }
             });
-    });    
+    });
+    pool.end();    
 });
 
 router.get('/unregister', function (req, res) {
@@ -60,7 +61,8 @@ router.get('/unregister', function (req, res) {
                     console.log('ERR: ' + err);
                 }
             });
-    });    
+    }); 
+    pool.end();   
 });
 
 
