@@ -57,7 +57,10 @@
         // the Messenger Exstensions JS SDK is done loading
         MessengerExtensions.getContext('223820597674431',
             function success(thread_context){
-                document.getElementById('psid').value = thread_context.psid;
+                $('#psid').val(thread_context.psid);
+                $.getJSON('/webviews/settings?psid=' + thread_context.psid, function (data) {
+                    $('#sfinput').val(data.sf_id);
+                });
             },
             function error(err){
                 // error
