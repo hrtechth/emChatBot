@@ -60,21 +60,21 @@
                 $('#psid').val(thread_context.psid);
                 $.getJSON('/webviews/settings?psid=' + thread_context.psid, function (data) {
                     $('#sfinput').val(data.sf_id);
+                    console.log("Data: " + data);
                 });
             },
             function error(err){
-                // error
+                console.log("Error");
             }
         );
-        
-        document.getElementById('submitButton').addEventListener('click', function() {
+        $('#submitButton').click(function() {
             MessengerExtensions.requestCloseBrowser(function success() {
                 // webview closed
             }, function error(err) {
                 // an error occured
             });
         });
-    };
+    };        
 </script>
 </body>
 </html>
