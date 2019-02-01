@@ -33,10 +33,10 @@
                             </div>
                     </div>
                     <div class="card-action">
-                            <button formaction="/webviews/unregister" id="unregButton" class="btn waves-effect waves-light " type="submit" name="action">Unregister
+                            <button style="visibility: collapse" formaction="/webviews/unregister" id="unregButton" class="btn waves-effect waves-light " type="submit" name="action">Unregister
                                     <i class="material-icons right">cancel</i>
                             </button>
-                            <button formaction="/webviews/save" id="submitButton" class="btn waves-effect waves-light " type="submit" name="action">Submit
+                            <button style="visibility: collapse" formaction="/webviews/save" id="submitButton" class="btn waves-effect waves-light " type="submit" name="action">Submit
                                     <i class="material-icons right">send</i>
                             </button>
                     </div>
@@ -66,10 +66,10 @@
                         $('#tbSfinput').val(data.sf_id);
                         document.getElementById("tbSfinput").disabled = true;
                         document.getElementById("unregButton").style.visibility = "visible";
-                        document.getElementById("submitButton").style.visibility = "hidden";
+                        document.getElementById("submitButton").style.visibility = "collapse";
                     } else {
                         document.getElementById("tbSfinput").disabled = false;
-                        document.getElementById("unregButton").style.visibility = "hidden";
+                        document.getElementById("unregButton").style.visibility = "collapse";
                         document.getElementById("submitButton").style.visibility = "visible";
                     }
                 });
