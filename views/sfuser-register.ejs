@@ -33,12 +33,16 @@
                             </div>
                     </div>
                     <div class="card-action">
-                            <button style="visibility: collapse" formaction="/webviews/unregister" id="unregButton" class="btn waves-effect waves-light indigo" type="submit" name="action">Unregister
-                                    <i class="material-icons right">cancel</i>
+                        <div id="unregDiv" style="display: none">
+                            <button formaction="/webviews/unregister" id="unregButton" class="btn waves-effect waves-light indigo" type="submit" name="action">Unregister
+                                <i class="material-icons right">cancel</i>
                             </button>
-                            <button style="visibility: collapse" formaction="/webviews/save" id="submitButton" class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
+                        </div>
+                        <div id="submitDiv" style="display: none">
+                            <button formaction="/webviews/save" id="submitButton" class="btn waves-effect waves-light indigo" type="submit" name="action">Submit
                                     <i class="material-icons right">send</i>
                             </button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -65,12 +69,12 @@
                     if(data.sf_id){
                         $('#tbSfinput').val(data.sf_id);
                         document.getElementById("tbSfinput").disabled = true;
-                        document.getElementById("unregButton").style.visibility = "visible";
-                        document.getElementById("submitButton").style.visibility = "collapse";
+                        document.getElementById("unregDiv").style.display = "inline";
+                        document.getElementById("submitDiv").style.display = "none";
                     } else {
                         document.getElementById("tbSfinput").disabled = false;
-                        document.getElementById("unregButton").style.visibility = "collapse";
-                        document.getElementById("submitButton").style.visibility = "visible";
+                        document.getElementById("unregDiv").style.display = "none";
+                        document.getElementById("submitDiv").style.display = "inline";
                     }
                 });
             },
