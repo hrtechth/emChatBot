@@ -26,8 +26,19 @@
         js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
+
+    
     window.extAsyncInit = function() {
         // the Messenger Exstensions JS SDK is done loading
+        MessengerExtensions.getContext('223820597674431',
+            function success(thread_context){
+                document.getElementById('psid').value = thread_context.psid;
+            },
+            function error(err){
+                // error
+            }
+        );
+        
         document.getElementById('submitButton').addEventListener('click', function() {
             MessengerExtensions.requestCloseBrowser(function success() {
                 // webview closed
