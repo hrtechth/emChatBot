@@ -59,7 +59,7 @@
             function success(thread_context){
                 $('#psid').val(thread_context.psid);
                 $.getJSON('/webviews/settings?psid=' + thread_context.psid, function (data) {
-                    $('#sfinput').val(data.sf_id);
+                    $('#tbSfinput').val(data.sf_id);
                     console.log("Data: " + data);
                 });
             },
