@@ -1051,7 +1051,7 @@ function receivedAuthentication(event) {
 }
 
 
-app.post('/callback', line.middleware(config.LINE_CONFIG), (req, res) => {
+app.post('/callback/', line.middleware(config.LINE_CONFIG), (req, res) => {
     Promise
       .all(req.body.events.map(handleEvent))
       .then((result) => res.json(result))
@@ -1071,9 +1071,9 @@ app.post('/callback', line.middleware(config.LINE_CONFIG), (req, res) => {
 
 function verifyRequestSignature(req, res, buf) {
     var signature = req.headers["x-hub-signature"];
-
+    
     if (!signature) {
-        throw new Error('Couldn\'t validate the signature.');
+        //throw new Error('Couldn\'t validate the signature.');
     } else {
         var elements = signature.split('=');
         var method = elements[0];
