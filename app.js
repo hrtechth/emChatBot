@@ -57,6 +57,12 @@ if (!config.PG_CONFIG) { //Postgresql Config Object
 app.set('view engine', 'ejs');
 app.set('port', (process.env.PORT || 5000))
 
+app.post('/callback/', line.middleware(lineConfig), (req, res) => {
+    Promise
+        .all(req.body.events.map(handleEvent))
+        .then((result) => res.json(result));
+});
+
 //verify request came from facebook
 app.use(bodyParser.json({
     verify: verifyRequestSignature
@@ -149,10 +155,6 @@ app.post('/webhook/', function (req, res) {
         res.sendStatus(200);
     }
 });
-
-
-
-
 
 function receivedMessage(event) {
 
@@ -1056,13 +1058,6 @@ function receivedAuthentication(event) {
     // to let them know it was successful.
     sendTextMessage(senderID, "Authentication successful");
 }
-
-
-app.post('/callback/', line.middleware(lineConfig), (req, res) => {
-    Promise
-        .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result));
-});
 
 function handleEvent(event) {
 
