@@ -10,7 +10,14 @@ const pg = require('pg');
 const app = express();
 const uuid = require('uuid');
 const line = require('@line/bot-sdk');
-const lineClient = new line.Client(config.LINE_CONFIG);
+
+
+const lineConfig = {
+    channelAccessToken: config.LINE_CONFIG.channelAccessToken,
+    channelSecret: config.LINE_CONFIG.channelSecret
+};
+
+const lineClient = new line.Client(lineConfig);
 
 pg.defaults.ssl = true;
 
@@ -1051,7 +1058,8 @@ function receivedAuthentication(event) {
 }
 
 
-app.post('/callback/', line.middleware(config.LINE_CONFIG), (req, res) => {
+app.post('/callback', line.middleware(lineConfig), (req, res) => {
+    console.log("Hello");
     Promise
       .all(req.body.events.map(handleEvent))
       .then((result) => res.json(result))
@@ -1071,7 +1079,7 @@ function handleEvent(event) {
     const echo = { type: 'text', text: event.message.text };
   
     // use reply API
-    return client.replyMessage(event.replyToken, echo);
+    return  lineClient.replyMessage(event.replyToken, echo);
   }
   
 /*
