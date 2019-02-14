@@ -18,5 +18,9 @@ module.exports = {
     },
     SF_USER: 'Emeritis_RI@thestockexT1',
     SF_PASSWORD: 'Emeritis@2020',
-    SF_APIURL: 'https://api10preview.sapsf.com:443'
+    SF_APIURL: 'https://api10preview.sapsf.com:443',
+    LINE_CONFIG = {
+        channelAccessToken: '3/fvxDfMaMj+XAihGYIjXr+07MtzTfgz04YbRg4FVUCwoeZsVhkXODbOp4HBzPLGWGV5OsiwzcIgPhoUBQV/AtNvTbAw+FX/4qyzKoPO9ilmHLaUW+Yq9P3n09IAtJ7j2Zhi1Ew4owz+CM9Jf6JMGgdB04t89/1O/w1cDnyilFU=',
+        channelSecret: '8dfa2179eba787fe8e71ede4f0e1624a',
+      }
 };

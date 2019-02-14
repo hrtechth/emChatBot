@@ -9,6 +9,8 @@ const request = require('request');
 const pg = require('pg');
 const app = express();
 const uuid = require('uuid');
+const line = require('@line/bot-sdk');
+const lineClient = new line.Client(config.LINE_CONFIG);
 
 pg.defaults.ssl = true;
 
@@ -1048,6 +1050,16 @@ function receivedAuthentication(event) {
     sendTextMessage(senderID, "Authentication successful");
 }
 
+
+app.post('/callback', line.middleware(config.LINE_CONFIG), (req, res) => {
+    Promise
+      .all(req.body.events.map(handleEvent))
+      .then((result) => res.json(result))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).end();
+      });
+  });
 /*
  * Verify that the callback came from Facebook. Using the App Secret from 
  * the App Dashboard, we can verify the signature that is sent with each 
@@ -1056,13 +1068,9 @@ function receivedAuthentication(event) {
  * https://developers.facebook.com/docs/graph-api/webhooks#setup
  *
  */
+
 function verifyRequestSignature(req, res, buf) {
     var signature = req.headers["x-hub-signature"];
-
-    if (!signature){
-        signature = req.headers["X-Line-Signature"];
-        return;
-    }
 
     if (!signature) {
         throw new Error('Couldn\'t validate the signature.');
