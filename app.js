@@ -1058,7 +1058,7 @@ function receivedAuthentication(event) {
 }
 
 
-app.post('/webhook', line.middleware(lineConfig), (req, res) => {
+app.post('/callback/', line.middleware(lineConfig), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result));
