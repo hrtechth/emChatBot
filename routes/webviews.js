@@ -13,7 +13,8 @@ router.get('/webview', function (req, res){
 });
 
 router.get('/webview-line', function (req, res){
-    res.render('sfuser-register-line');
+    console.log("LINE!!");
+    res.render('sfuser-register');
 });
 
 
