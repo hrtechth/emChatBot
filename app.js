@@ -1058,29 +1058,30 @@ function receivedAuthentication(event) {
 }
 
 
-app.post('/callback', line.middleware(lineConfig), (req, res) => {
-    console.log("Hello");
+app.post('/webhook', line.middleware(lineConfig), (req, res) => {
     Promise
-      .all(req.body.events.map(handleEvent))
-      .then((result) => res.json(result))
-      .catch((err) => {
-        console.error(err);
-        res.status(500).end();
-      });
-  });
+        .all(req.body.events.map(handleEvent))
+        .then((result) => res.json(result));
+});
 
 function handleEvent(event) {
-    if (event.type !== 'message' || event.message.type !== 'text') {
-      // ignore non-text-message event
-      return Promise.resolve(null);
+
+    console.log(event);
+    if (event.type === 'message' && event.message.type === 'text') {
+        handleMessageEvent(event);
+    } else {
+        return Promise.resolve(null);
     }
-  
-    // create a echoing text message
-    const echo = { type: 'text', text: event.message.text };
-  
-    // use reply API
-    return  lineClient.replyMessage(event.replyToken, echo);
-  }
+}
+
+function handleMessageEvent(event) {
+    var msg = {
+        type: 'text',
+        text: 'Hello'
+    };
+
+    return lineClient.replyMessage(event.replyToken, msg);
+}
   
 /*
  * Verify that the callback came from Facebook. Using the App Secret from 
