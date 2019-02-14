@@ -12,6 +12,11 @@ router.get('/webview', function (req, res){
     res.render('sfuser-register');
 });
 
+router.get('/webview-line', function (req, res){
+    res.render('sfuser-register-line');
+});
+
+
 
 router.get('/save', function (req, res) {
     let body = req.query;
