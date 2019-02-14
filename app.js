@@ -1059,6 +1059,11 @@ function receivedAuthentication(event) {
 function verifyRequestSignature(req, res, buf) {
     var signature = req.headers["x-hub-signature"];
 
+    if (!signature){
+        signature = req.headers["X-Line-Signature"];
+        return;
+    }
+
     if (!signature) {
         throw new Error('Couldn\'t validate the signature.');
     } else {
