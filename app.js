@@ -58,6 +58,10 @@ app.set('view engine', 'ejs');
 app.set('port', (process.env.PORT || 5000))
 
 app.post('/callback/', line.middleware(lineConfig), (req, res) => {
+
+    var data = req.body;
+    console.log("Request: " + JSON.stringify(data)); 
+
     Promise
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result));
