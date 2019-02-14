@@ -1060,6 +1060,20 @@ app.post('/callback/', line.middleware(config.LINE_CONFIG), (req, res) => {
         res.status(500).end();
       });
   });
+
+function handleEvent(event) {
+    if (event.type !== 'message' || event.message.type !== 'text') {
+      // ignore non-text-message event
+      return Promise.resolve(null);
+    }
+  
+    // create a echoing text message
+    const echo = { type: 'text', text: event.message.text };
+  
+    // use reply API
+    return client.replyMessage(event.replyToken, echo);
+  }
+  
 /*
  * Verify that the callback came from Facebook. Using the App Secret from 
  * the App Dashboard, we can verify the signature that is sent with each 
