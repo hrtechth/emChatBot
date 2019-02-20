@@ -230,7 +230,10 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             break; 
         case "get-emp-count":
             getEmpCount(sender);
-            break;          
+            break;     
+        case "get-holiday-calendar":
+            getHoliday(sender);
+            break;     
         case "sf-register":
             registerSfUserToDb(sender);
             break;
@@ -238,6 +241,32 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             //unhandled action, just send back the text
             handleMessages(messages, sender);
     }
+}
+
+function getHoliday(sender) {
+    
+    sendTextMessage(sender, "คิดแปป");
+    /*
+    request.get(config.SF_APIURL + '/odata/v2/User/$count', 
+    {
+        'auth': {
+                'user': config.SF_USER,
+                'pass': config.SF_PASSWORD,
+                'sendImmediately': false
+        }
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log("Body: " + body);
+            var userCount = body;
+            console.log('EmpCount: ' + userCount);
+            sendTextMessage(sender, "จำนวนพนักงานทั้งหมด " + userCount + " คน");
+        } else {
+            console.error(response.error);
+        } 
+
+    });
+    */
+
 }
 
 function getEmpCount(sender) {
