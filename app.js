@@ -75,7 +75,7 @@ app.set('port', (process.env.PORT || 5000))
 app.post('/callback/', line.middleware(lineConfig), (req, res) => {
 
     var data = req.body;
-    console.log("Request: " + JSON.stringify(data)); 
+    console.log("Request: " + util.inspect(data)); 
 
     Promise
         .all(req.body.events.map(handleEvent))
@@ -83,8 +83,8 @@ app.post('/callback/', line.middleware(lineConfig), (req, res) => {
 });
 
 app.post('/webhookKK/', (req, res) => {
-    var data = req.body;
-    console.log("Request: "  + util.inspect(data)) 
+    //var data = req.body;
+    //console.log("Request: "  + util.inspect(data)) 
 });
 
 //verify request came from facebook
