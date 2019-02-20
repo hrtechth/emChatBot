@@ -311,9 +311,7 @@ function getHoliday(sender, parameters) {
                         if (i < oDataResponse.d.results.length - 1) {
                             output = output + "\n";
                         }
-                        
                         j = j + 1;
-                        console.log(output);
                     }
                 }
                 
@@ -321,6 +319,7 @@ function getHoliday(sender, parameters) {
                     output = `ไม่มีวันหยุดในช่วง ${begDay} ถึง ${endDay} ค่ะ`;
                 }
 
+                console.log(output);
                 sendTextMessage(sender, output);
 
                 //sendTextMessage(sender, "จำนวนพนักงานทั้งหมด " + userCount + " คน");
