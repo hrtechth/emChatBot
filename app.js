@@ -265,35 +265,71 @@ function getHoliday(sender, parameters) {
         var begDate = new Date(dateParam.startDateTime.stringValue);
         var endDate = new Date(dateParam.endDateTime.stringValue);
 
+        begDate.setHours(0,0,0,0);
+        endDate.setHours(0,0,0,0);
+
         var begDay = dateFormat(begDate, "d mmm yyyy");
         var endDay = dateFormat(endDate, "d mmm yyyy");
         console.log(begDay);
         console.log(endDay);
 
-        var output = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ`;
-        sendTextMessage(sender, output);
+        var output;
+        // = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ`;
+        //sendTextMessage(sender, output);
+
+        request.get(config.SF_APIURL + '/odata/v2/HolidayCalendar(\'SET_Holiday_Calendar\')/holidayAssignments?$expand=holidayNav&$format=json', 
+        {
+            'auth': {
+                    'user': config.SF_USER,
+                    'pass': config.SF_PASSWORD,
+                    'sendImmediately': false
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let oDataResponse = JSON.parse(body);
+                
+                let j = 1;
+
+                for (var i = 0; i < oDataResponse.d.results.length; i++) {
+                    var results = oDataResponse.d.results[i];
+                    console.log(results.holidayNav.name_localized);
+                    //console.log(results);
+                    var xmlDate = new Date(results.date.match(/\d+/)[0] * 1);
+                    console.log(xmlDate);
+                    
+                    if(xmlDate >= begDate && xmlDate <= endDate)
+                    {
+                        console.log(j);
+                        var k = j.toString();
+                        var myDate = new Date(results.date.match(/\d+/)[0] * 1);
+                        var day = dateFormat(myDate, "dddd d mmmm yyyy");
+                        if(j === 1){
+                            output = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ\n`;
+                        }
+                        output = `${output}${k}: ${day} - ${results.holidayNav.name_localized}`;
+                        
+                        if (i < oDataResponse.d.results.length - 1) {
+                            output = output + "\n";
+                        }
+                        
+                        j = j + 1;
+                        console.log(output);
+                    }
+                }
+                
+                if(output === ""){
+                    output = `ไม่มีวันหยุดในช่วง ${begDay} ถึง ${endDay} ค่ะ`;
+                }
+
+                sendTextMessage(sender, output);
+
+                //sendTextMessage(sender, "จำนวนพนักงานทั้งหมด " + userCount + " คน");
+            } else {
+                console.error(response.error);
+            } 
+
+        });
     }
-    /*
-    request.get(config.SF_APIURL + '/odata/v2/User/$count', 
-    {
-        'auth': {
-                'user': config.SF_USER,
-                'pass': config.SF_PASSWORD,
-                'sendImmediately': false
-        }
-    }, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            console.log("Body: " + body);
-            var userCount = body;
-            console.log('EmpCount: ' + userCount);
-            sendTextMessage(sender, "จำนวนพนักงานทั้งหมด " + userCount + " คน");
-        } else {
-            console.error(response.error);
-        } 
-
-    });
-    */
-
 }
 
 function getEmpCount(sender) {
@@ -307,8 +343,8 @@ function getEmpCount(sender) {
         }
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log("Body: " + body);
-            var userCount = body;
+            //console.log("Body: " + body);
+            let response = JSON.parse(body);
             console.log('EmpCount: ' + userCount);
             sendTextMessage(sender, "จำนวนพนักงานทั้งหมด " + userCount + " คน");
         } else {
