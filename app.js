@@ -749,14 +749,17 @@ async function sendToDialogFlowLine(event, params) {
 
     //sendTypingOn(sender);
     console.log("User ID Line: " + event.source.userId);
-    if (!sessionIds.has(event.source.userId)) {
-        sessionIds.set(event.source.userId, uuid.v1());
+    console.log("Message Line: " + event.message.text);
+
+    let chatId = getChatId(event);
+    if (!sessionIds.has(chatId)) {
+        sessionIds.set(chatId, uuid.v4());
     }
 
     try {
         const sessionPath = sessionClient.sessionPath(
             config.GOOGLE_PROJECT_ID,
-            sessionIds.get(event.source.userId)
+            sessionIds.get(chatId)
         );
 
         const request = {
@@ -783,6 +786,25 @@ async function sendToDialogFlowLine(event, params) {
     }
 
 }
+
+function getChatId(event) {
+    if (event.source) {
+
+      if (event.source.type === 'user') {
+        return event.source.userId;
+      }
+
+      if (event.source.type === 'group') {
+        return event.source.groupId;
+      }
+
+      if (event.source.type === 'room') {
+        return event.source.roomId;
+      }
+    }
+    return null;
+}
+
 
 function sendTextMessageLine(event, text) {
 
