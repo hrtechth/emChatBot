@@ -782,6 +782,18 @@ async function sendToDialogFlowLine(event) {
 }
 
 function sendTextMessageLine(event, text) {
+
+    var msg = {
+        type: 'text',
+        text: text
+    };
+
+    return lineClient.replyMessage(event.replyToken, msg);
+    
+}
+
+function sendTextMessage(recipientId, text) {
+    
     var messageData = {
         recipient: {
             id: recipientId
@@ -791,17 +803,6 @@ function sendTextMessageLine(event, text) {
         }
     }
     callSendAPI(messageData);
-}
-
-
-function sendTextMessage(recipientId, text) {
-    
-    var msg = {
-        type: 'text',
-        text: text
-    };
-
-    return lineClient.replyMessage(event.replyToken, msg);
 }
 
 /*
