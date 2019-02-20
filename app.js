@@ -232,7 +232,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             getEmpCount(sender);
             break;     
         case "get-holiday-calendar":
-            getHoliday(sender);
+            getHoliday(sender, parameters);
             break;     
         case "sf-register":
             registerSfUserToDb(sender);
@@ -243,8 +243,9 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     }
 }
 
-function getHoliday(sender) {
+function getHoliday(sender, parameters) {
     
+    console.log('Holiday Param: ' + parameters);
     sendTextMessage(sender, "คิดแปป");
     /*
     request.get(config.SF_APIURL + '/odata/v2/User/$count', 
