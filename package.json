@@ -15,6 +15,7 @@
   "dependencies": {
     "@line/bot-sdk": "^6.4.0",
     "body-parser": "^1.18.3",
+    "dateformat": "^3.0.3",
     "dialogflow": "^0.5.0",
     "ejs": "^2.6.1",
     "express": "^4.16.3",

@@ -10,7 +10,21 @@ const pg = require('pg');
 const app = express();
 const uuid = require('uuid');
 const line = require('@line/bot-sdk');
+var dateFormat = require('dateformat');
 
+dateFormat.i18n = {
+    dayNames: [
+        'อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.',
+        'อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'
+ ],
+    monthNames: [
+        'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.',
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+    ],
+    timeNames: [
+        'a', 'p', 'am', 'pm', 'A', 'P', 'AM', 'PM'
+    ]
+};
 
 const lineConfig = {
     channelAccessToken: config.LINE_CONFIG.channelAccessToken,
@@ -246,7 +260,17 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 function getHoliday(sender, parameters) {
     
     console.log('Holiday Param: ' + JSON.stringify(parameters));
-    sendTextMessage(sender, "คิดแปป");
+    if(parameters.fields.date_param.structValue.fields){
+        var dateParam = parameters.fields.date_param.structValue.fields;
+        var begDate = new Date(dateParam.startDateTime.stringValue);
+        var endDate = new Date(dateParam.endDateTime.stringValue);
+
+        var begDay = dateFormat(begDate, "d mmm yyyy");
+        var endDay = dateFormat(endDate, "d mmm yyyy");
+
+        output = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ`;
+        sendTextMessage(sender, output);
+    }
     /*
     request.get(config.SF_APIURL + '/odata/v2/User/$count', 
     {
