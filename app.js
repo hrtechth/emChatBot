@@ -240,7 +240,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     }
 }
 
-function getLeaveBalance(sender) {
+function getEmpCount(sender) {
     
     request.get(config.SF_APIURL + '/odata/v2/User/$count', 
     {
