@@ -1351,7 +1351,7 @@ function handleEvent(event) {
 function handleMessageEvent(event) {
 
     if (event.message.text) {
-        Console.log("send message to api.ai");
+        console.log("send message to api.ai");
         sendToDialogFlowLine(event);
     }
 
