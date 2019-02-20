@@ -333,7 +333,7 @@ function getHoliday(sender, parameters, contexts, messages) {
 
         });
     } else {
-        sendTextMessage(sender, "กรุณาระบุช่วงที่ต้องการเรียกดูวันหยุดด้วยค่ะ");
+        sendTextMessage(sender, messages[0].text.text);
     }
 }
 
