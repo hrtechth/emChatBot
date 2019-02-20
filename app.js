@@ -257,12 +257,82 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         case "get-vacant-position":
             getVacancy(sender, parameters, contexts, messages);
             break;  
+        case "get-phone-num":
+            getPhoneNum(sender, parameters, contexts, messages);
+            break;  
         case "sf-register":
             registerSfUserToDb(sender);
             break;
         default:
             //unhandled action, just send back the text
             handleMessages(messages, sender);
+    }
+}
+
+function getPhoneNum(sender, parameters, contexts, messages) {
+    
+    console.log('Phone Param: ' + JSON.stringify(parameters));
+    console.log('Phone Context: ' + JSON.stringify(contexts));
+    console.log('Phone Message: ' + JSON.stringify(messages));
+
+    
+    if(typeof parameters.fields.emp_name.stringValue !== 'undefined'){
+
+        var sName = parameters.fields.emp_name.stringValue;
+
+        request.get(config.SF_APIURL + '/odata/v2/User?$select=defaultFullName,cellPhone,businessPhone,custom03&$format=json', 
+        {
+            'auth': {
+                    'user': config.SF_USER,
+                    'pass': config.SF_PASSWORD,
+                    'sendImmediately': false
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let oDataResponse = JSON.parse(body);
+                
+                let j = 1;
+                var output = "";
+
+                for (var i = 0; i < oDataResponse.d.results.length; i++) {
+                    var results = oDataResponse.d.results[i];
+
+                    var sUpperName = results.defaultFullName.toUpperCase();
+                    var sSearch = sName.toUpperCase();
+                    console.log(sSearch + " " + sUpperName);
+                    if(sUpperName.search(sSearch) !== -1){
+                        var k = j.toString();
+                        var sDept = "";
+                        var sPhone = "";
+
+                        sDept = results.custom03? results.custom03: "ไม่มีแผนก";
+                        sPhone = results.businessPhone? results.businessPhone: "ไม่มีหมายเลขติดต่อ";
+
+
+                        output = `${output}${k}: ${results.defaultFullName} / ${sDept} / ${sPhone}`;
+                        if (i < oDataResponse.d.results.length - 1) {
+                            output = output + "\n";
+                        }
+                        j = j + 1;
+                    }
+                }    
+                
+                if(output === ""){
+                   output = `ไม่มีพนักงานที่ค้นหาค่ะ`;
+                }
+                else{
+                    output = output.slice(0, -1);
+                }
+
+                sendTextMessage(sender, output);
+
+            } else {
+                console.error(response.error);
+            } 
+
+        });
+    } else {
+        sendTextMessage(sender, messages[0].text.text[0]);
     }
 }
 
