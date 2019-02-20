@@ -82,10 +82,9 @@ app.post('/callback/', line.middleware(lineConfig), (req, res) => {
         .then((result) => res.json(result));
 });
 
-
-app.post('/webhookKK/', function (req, res) {
-    var data = req;
-    console.log("Request: "  + util.inspect(req)) 
+app.post('/webhookKK/', (req, res) => {
+    var data = req.body;
+    console.log("Request: "  + util.inspect(data)) 
 });
 
 //verify request came from facebook
