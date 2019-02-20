@@ -577,6 +577,26 @@ function getLeaveBalance(sender) {
 
                         });
 
+                        request.get(config.SF_APIURL + '/odata/v2/EmpTimeAccountBalance?$filter=userId eq \'' + sfuser + '\'  and timeAccountType eq \'Sick Leave\'&$format=json', 
+                        {
+                            'auth': {
+                                    'user': config.SF_USER,
+                                    'pass': config.SF_PASSWORD,
+                                    'sendImmediately': false
+                            }
+                        }, function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+
+                                console.log(body);
+                                var user = JSON.parse(body);
+                                console.log('leave Banlance: ' + user.d.results[0].balance);
+                                sendTextMessage(sender, "วันลาป่วยคงเหลือ " + user.d.results[0].balance + " วัน");
+                            } else {
+                                console.error(response.error);
+                            }
+
+                        });
+
                     } else {
                         sendTextMessage(sender,'ไม่พบข้อมูล กรุณาลงทะเบียน');
                     }
