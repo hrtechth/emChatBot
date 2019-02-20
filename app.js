@@ -261,6 +261,8 @@ function getHoliday(sender, parameters, contexts, messages) {
     
     console.log('Holiday Param: ' + JSON.stringify(parameters));
     console.log('Holiday Context: ' + JSON.stringify(contexts));
+    console.log('Holiday Message: ' + JSON.stringify(messages));
+
 
     if(typeof parameters.fields.date_param.structValue !== 'undefined'){
         var dateParam = parameters.fields.date_param.structValue.fields;
