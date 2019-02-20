@@ -260,7 +260,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 function getHoliday(sender, parameters) {
     
     console.log('Holiday Param: ' + JSON.stringify(parameters));
-    if(parameters.fields.date_param.structValue.fields){
+    if(typeof parameters.fields.date_param.structValue.fields !== 'undefined'){
         var dateParam = parameters.fields.date_param.structValue.fields;
         var begDate = new Date(dateParam.startDateTime.stringValue);
         var endDate = new Date(dateParam.endDateTime.stringValue);
@@ -328,6 +328,8 @@ function getHoliday(sender, parameters) {
             } 
 
         });
+    } else {
+        sendTextMessage(sender, "กรุณาระบุช่วงที่ต้องการเรียกดูวันหยุดด้วยค่ะ");
     }
 }
 
