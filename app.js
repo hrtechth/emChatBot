@@ -748,7 +748,7 @@ async function sendToDialogFlow(sender, textString, params) {
 async function sendToDialogFlowLine(event, params) {
 
     //sendTypingOn(sender);
-    Console.log("User ID Line: " + event.source.userId);
+    console.log("User ID Line: " + event.source.userId);
 
     try {
         const sessionPath = sessionClient.sessionPath(
