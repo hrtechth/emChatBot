@@ -683,6 +683,12 @@ function handleMessages(messages, sender) {
     }
 }
 
+function handleDialogFlowResponseLine(event, response) {
+    let responseText = response.fulfillmentMessages.fulfillmentText;
+
+    sendTextMessageLine(event, responseText);
+}
+
 function handleDialogFlowResponse(sender, response) {
     let responseText = response.fulfillmentMessages.fulfillmentText;
 
@@ -740,10 +746,42 @@ async function sendToDialogFlow(sender, textString, params) {
 
 }
 
+async function sendToDialogFlowLine(event) {
 
+    //sendTypingOn(sender);
 
+    try {
+        const sessionPath = sessionClient.sessionPath(
+            config.GOOGLE_PROJECT_ID,
+            sessionIds.get(event.source.userId)
+        );
 
-function sendTextMessage(recipientId, text) {
+        const request = {
+            session: sessionPath,
+            queryInput: {
+                text: {
+                    text: event.message.text,
+                    languageCode: config.DF_LANGUAGE_CODE,
+                },
+            },
+            queryParams: {
+                payload: {
+                    data: params
+                }
+            }
+        };
+        const responses = await sessionClient.detectIntent(request);
+
+        const result = responses[0].queryResult;
+        handleDialogFlowResponseLine(event, result);
+    } catch (e) {
+        console.log('error');
+        console.log(e);
+    }
+
+}
+
+function sendTextMessageLine(event, text) {
     var messageData = {
         recipient: {
             id: recipientId
@@ -753,6 +791,17 @@ function sendTextMessage(recipientId, text) {
         }
     }
     callSendAPI(messageData);
+}
+
+
+function sendTextMessage(recipientId, text) {
+    
+    var msg = {
+        type: 'text',
+        text: text
+    };
+
+    return lineClient.replyMessage(event.replyToken, msg);
 }
 
 /*
@@ -1299,12 +1348,20 @@ function handleEvent(event) {
 }
 
 function handleMessageEvent(event) {
+
+    if (event.message.text) {
+        //send message to api.ai
+        sendToDialogFlowLine(event);
+    }
+
+    /*
     var msg = {
         type: 'text',
         text: 'Hello'
     };
 
     return lineClient.replyMessage(event.replyToken, msg);
+    */
 }
   
 /*
