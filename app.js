@@ -268,7 +268,7 @@ function getVacancy(sender, parameters, contexts, messages) {
 
     
     if(typeof parameters.fields.Division.listValue.values !== 'undefined'
-        || parameters.fields.Division.listValue.values.length == 0){
+        || parameters.fields.Division.listValue.values.length > 0){
         var sDivision = parameters.fields.Division.listValue;
         
         sDivision.values.forEach((sValue) => {
