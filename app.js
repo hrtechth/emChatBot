@@ -333,7 +333,7 @@ function getHoliday(sender, parameters, contexts, messages) {
 
         });
     } else {
-        sendTextMessage(sender, messages[0].text.text);
+        sendTextMessage(sender, messages[0].text.text[0]);
     }
 }
 
