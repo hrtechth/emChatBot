@@ -246,7 +246,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             getEmpCount(sender);
             break;     
         case "get-holiday-calendar":
-            getHoliday(sender, parameters);
+            getHoliday(sender, parameters, contexts);
             break;     
         case "sf-register":
             registerSfUserToDb(sender);
@@ -257,9 +257,11 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     }
 }
 
-function getHoliday(sender, parameters) {
+function getHoliday(sender, parameters, contexts) {
     
     console.log('Holiday Param: ' + JSON.stringify(parameters));
+    console.log('Holiday Context: ' + JSON.stringify(contexts));
+
     if(typeof parameters.fields.date_param.structValue !== 'undefined'){
         var dateParam = parameters.fields.date_param.structValue.fields;
         var begDate = new Date(dateParam.startDateTime.stringValue);
