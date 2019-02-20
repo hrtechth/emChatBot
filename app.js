@@ -266,7 +266,9 @@ function getVacancy(sender, parameters, contexts, messages) {
     console.log('Vacancy Context: ' + JSON.stringify(contexts));
     console.log('Vacancy Message: ' + JSON.stringify(messages));
 
-    if(parameters.fields.Division.listValue.values.length > 0){
+    
+    if(typeof parameters.fields.Division.listValue.values !== 'undefined'
+        && parameters.fields.Division.listValue.values.length > 0){
         var sDivision = parameters.fields.Division.listValue;
         
         sDivision.values.forEach((sValue) => {
