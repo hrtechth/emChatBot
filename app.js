@@ -288,18 +288,18 @@ function getHoliday(sender, parameters) {
                 let oDataResponse = JSON.parse(body);
                 
                 let j = 1;
-                var output;
+                var output = "";
 
                 for (var i = 0; i < oDataResponse.d.results.length; i++) {
                     var results = oDataResponse.d.results[i];
-                    console.log(results.holidayNav.name_localized);
+                    console.log("Holiday Name " + results.holidayNav.name_localized);
                     //console.log(results);
                     var xmlDate = new Date(results.date.match(/\d+/)[0] * 1);
-                    console.log(xmlDate);
+                    console.log("Holiday Name Date" + xmlDate);
                     
                     if(xmlDate >= begDate && xmlDate <= endDate)
                     {
-                        console.log(j);
+                        //console.log(j);
                         var k = j.toString();
                         var myDate = new Date(results.date.match(/\d+/)[0] * 1);
                         var day = dateFormat(myDate, "dddd d mmmm yyyy");
