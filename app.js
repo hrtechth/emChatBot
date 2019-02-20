@@ -84,7 +84,7 @@ app.post('/callback/', line.middleware(lineConfig), (req, res) => {
 
 app.post('/webhookKK/', function (req, res) {
     var data = req;
-    console.log("Request: " + data.message); 
+    console.log("Request: " + data); 
 
 });
 
