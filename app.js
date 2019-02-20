@@ -11,6 +11,7 @@ const app = express();
 const uuid = require('uuid');
 const line = require('@line/bot-sdk');
 var dateFormat = require('dateformat');
+var util = require('util')
 
 dateFormat.i18n = {
     dayNames: [
@@ -83,8 +84,8 @@ app.post('/callback/', line.middleware(lineConfig), (req, res) => {
 
 
 app.post('/webhookKK/', function (req, res) {
-    var data = JSON.stringify(req);
-    console.log("Request: " + data); 
+    var data = req;
+    console.log(util.inspect(req)) 
 });
 
 //verify request came from facebook
