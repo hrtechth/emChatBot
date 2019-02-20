@@ -276,7 +276,8 @@ function getPhoneNum(sender, parameters, contexts, messages) {
     console.log('Phone Message: ' + JSON.stringify(messages));
 
     
-    if(typeof parameters.fields.emp_name.stringValue !== 'undefined'){
+    if(typeof parameters.fields.emp_name.stringValue !== 'undefined'
+        && parameters.fields.emp_name.stringValue){
 
         var sName = parameters.fields.emp_name.stringValue;
 
@@ -297,6 +298,9 @@ function getPhoneNum(sender, parameters, contexts, messages) {
                 for (var i = 0; i < oDataResponse.d.results.length; i++) {
                     var results = oDataResponse.d.results[i];
 
+                    if(!results.defaultFullName){
+                        continue;
+                    }
                     var sUpperName = results.defaultFullName.toUpperCase();
                     var sSearch = sName.toUpperCase();
                     console.log(sSearch + " " + sUpperName);
