@@ -248,12 +248,97 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
         case "get-holiday-calendar":
             getHoliday(sender, parameters, contexts, messages);
             break;     
+        case "get-vacant-position":
+            getVacancy(sender, parameters, contexts, messages);
+            break;  
         case "sf-register":
             registerSfUserToDb(sender);
             break;
         default:
             //unhandled action, just send back the text
             handleMessages(messages, sender);
+    }
+}
+
+function getVacancy(sender, parameters, contexts, messages) {
+    
+    console.log('Vacancy Param: ' + JSON.stringify(parameters));
+    console.log('Vacancy Context: ' + JSON.stringify(contexts));
+    console.log('Vacancy Message: ' + JSON.stringify(messages));
+
+    
+    if(typeof parameters.fields.Division.structValue !== 'undefined'){
+        var sDivision = parameters.fields.date_param.structValue.fields;
+
+        if(sDivision !== "100127" && sDivision !== "ALL" && 
+           sDivision !== "10000008" && sDivision !== "100317"){
+            sendTextMessage(sender, 'ไม่มีฝ่ายที่ต้องการดูค่ะ');
+            return;
+        }
+
+        console.log(sDivision);
+
+        request.get(config.SF_APIURL + '/odata/v2/Position?$filter=vacant+eq+true+and+effectiveStatus+eq+%27A%27&$select=code,externalName_en_GB,vacant,divisionNav/externalCode&$format=json&$expand=divisionNav', 
+        {
+            'auth': {
+                    'user': config.SF_USER,
+                    'pass': config.SF_PASSWORD,
+                    'sendImmediately': false
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let oDataResponse = JSON.parse(body);
+                
+                let j = 1;
+                var output = "";
+
+                for (var i = 0; i < oDataResponse.d.results.length; i++) {
+                    var results = oDataResponse.d.results[i];
+                    
+                    if(results.divisionNav === null){
+                        continue;
+                    }
+                    
+                    console.log(i.toString() + " " + results.code + " " + results.divisionNav.externalCode);
+                    
+                    if(results.divisionNav.externalCode === sDivision || sDivision === "ALL")
+                    {
+                        console.log(j);
+                        var k = j.toString();
+                        if(j<=10){
+                            output = `${output}${k}: ${results.code} ${results.externalName_en_GB}`;
+                            if (i < oDataResponse.d.results.length - 1) {
+                                output = output + "\n";
+                            }
+                        }
+                        j = j + 1;
+                    }
+                }    
+                
+                if(output === ""){
+                   output = `ไม่ตำแหน่งว่างค่ะ`;
+                }
+                else{
+                    j = j - 1;
+                    var output2 = `ตำแหน่งว่างมี ${j} รายการ`;   
+                    if(j > 10){
+                        output2 = `${output2} 10 รายการแรก ได้แก่\n`;
+                    }else{
+                        output2 = `${output2} ได้แก่\n`;
+                    }
+                    output = `${output2}${output}`;
+                    output = output.slice(0, -1);
+                }
+
+                sendTextMessage(sender, output);
+
+            } else {
+                console.error(response.error);
+            } 
+
+        });
+    } else {
+        sendTextMessage(sender, messages[0].text.text[0]);
     }
 }
 
