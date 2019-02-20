@@ -260,7 +260,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 function getHoliday(sender, parameters) {
     
     console.log('Holiday Param: ' + JSON.stringify(parameters));
-    if(typeof parameters.fields.date_param.structValue.fields !== 'undefined'){
+    if(typeof parameters.fields.date_param.structValue !== 'undefined'){
         var dateParam = parameters.fields.date_param.structValue.fields;
         var begDate = new Date(dateParam.startDateTime.stringValue);
         var endDate = new Date(dateParam.endDateTime.stringValue);
