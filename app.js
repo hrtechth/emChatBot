@@ -273,7 +273,6 @@ function getHoliday(sender, parameters) {
         console.log(begDay);
         console.log(endDay);
 
-        var output;
         // = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ`;
         //sendTextMessage(sender, output);
 
@@ -289,6 +288,7 @@ function getHoliday(sender, parameters) {
                 let oDataResponse = JSON.parse(body);
                 
                 let j = 1;
+                var output;
 
                 for (var i = 0; i < oDataResponse.d.results.length; i++) {
                     var results = oDataResponse.d.results[i];
