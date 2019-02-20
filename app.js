@@ -267,8 +267,8 @@ function getVacancy(sender, parameters, contexts, messages) {
     console.log('Vacancy Message: ' + JSON.stringify(messages));
 
     
-    if(typeof parameters.fields.Division.listValue !== 'undefined'
-        || parameters.fields.Division.listValue.length == 0){
+    if(typeof parameters.fields.Division.listValue.values !== 'undefined'
+        || parameters.fields.Division.listValue.values.length == 0){
         var sDivision = parameters.fields.Division.listValue;
         
         sDivision.values.forEach((sValue) => {
@@ -307,7 +307,6 @@ function getVacancy(sender, parameters, contexts, messages) {
                     sDivision.values.forEach((sValue) => {
                         if(sValue == results.divisionNav.externalCode || sValue == "ALL"){
                             isFound = true;
-                            break;
                         }
                     });
 
