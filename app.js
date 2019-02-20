@@ -251,13 +251,13 @@ function getLeaveBalance(sender) {
         }
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body);
+            console.log("Body: " + body);
             var userCount = body;
             console.log('EmpCount: ' + userCount);
             sendTextMessage(sender, "จำนวนพนักงานทั้งหมด " + userCount + " คน");
         } else {
             console.error(response.error);
-        }
+        } 
 
     });
 
