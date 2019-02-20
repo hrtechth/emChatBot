@@ -749,6 +749,9 @@ async function sendToDialogFlowLine(event, params) {
 
     //sendTypingOn(sender);
     console.log("User ID Line: " + event.source.userId);
+    if (!sessionIds.has(event.source.userId)) {
+        sessionIds.set(event.source.userId, uuid.v1());
+    }
 
     try {
         const sessionPath = sessionClient.sessionPath(
