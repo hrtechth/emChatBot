@@ -267,16 +267,17 @@ function getVacancy(sender, parameters, contexts, messages) {
     console.log('Vacancy Message: ' + JSON.stringify(messages));
 
     
-    if(typeof parameters.fields.Division.structValue !== 'undefined'){
-        var sDivision = parameters.fields.date_param.structValue.fields;
-
-        if(sDivision !== "100127" && sDivision !== "ALL" && 
-           sDivision !== "10000008" && sDivision !== "100317"){
-            sendTextMessage(sender, 'ไม่มีฝ่ายที่ต้องการดูค่ะ');
-            return;
-        }
-
-        console.log(sDivision);
+    if(typeof parameters.fields.Division.listValue !== 'undefined'
+        || parameters.fields.Division.listValue.length == 0){
+        var sDivision = parameters.fields.Division.listValue;
+        
+        sDivision.values.forEach((sValue) => {
+            console.log("Division: " + sValue);
+            if(sValue !== "100127" && sValue !== "ALL" && 
+             sValue !== "10000008" && sValue !== "100317"){
+                return;
+            }
+        });
 
         request.get(config.SF_APIURL + '/odata/v2/Position?$filter=vacant+eq+true+and+effectiveStatus+eq+%27A%27&$select=code,externalName_en_GB,vacant,divisionNav/externalCode&$format=json&$expand=divisionNav', 
         {
@@ -294,6 +295,7 @@ function getVacancy(sender, parameters, contexts, messages) {
 
                 for (var i = 0; i < oDataResponse.d.results.length; i++) {
                     var results = oDataResponse.d.results[i];
+                    var isFound = false;
                     
                     if(results.divisionNav === null){
                         continue;
@@ -301,7 +303,15 @@ function getVacancy(sender, parameters, contexts, messages) {
                     
                     console.log(i.toString() + " " + results.code + " " + results.divisionNav.externalCode);
                     
-                    if(results.divisionNav.externalCode === sDivision || sDivision === "ALL")
+                    isFound = false;
+                    sDivision.values.forEach((sValue) => {
+                        if(sValue == results.divisionNav.externalCode || sValue == "ALL"){
+                            isFound = true;
+                            break;
+                        }
+                    });
+
+                    if(isFound)
                     {
                         console.log(j);
                         var k = j.toString();
