@@ -272,9 +272,10 @@ function getVacancy(sender, parameters, contexts, messages) {
         var sDivision = parameters.fields.Division.listValue;
         
         sDivision.values.forEach((sValue) => {
-            console.log("Division: " + sValue);
-            if(sValue !== "100127" && sValue !== "ALL" && 
-             sValue !== "10000008" && sValue !== "100317"){
+            console.log("Division: " + sValue.stringValue);
+            if(sValue.stringValue !== "100127" && sValue.stringValue !== "ALL" && 
+             sValue.stringValue !== "10000008" && sValue.stringValue !== "100317"){
+                sendTextMessage(sender, "ไม่มีฝ่ายที่ต้องการดูค่ะ");
                 return;
             }
         });
@@ -305,7 +306,8 @@ function getVacancy(sender, parameters, contexts, messages) {
                     
                     isFound = false;
                     sDivision.values.forEach((sValue) => {
-                        if(sValue == results.divisionNav.externalCode || sValue == "ALL"){
+                        if(sValue.stringValue == results.divisionNav.externalCode 
+                            || sValue.stringValue == "ALL"){
                             isFound = true;
                         }
                     });
