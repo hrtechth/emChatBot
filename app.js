@@ -246,7 +246,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
             getEmpCount(sender);
             break;     
         case "get-holiday-calendar":
-            getHoliday(sender, parameters, contexts);
+            getHoliday(sender, parameters, contexts, messages);
             break;     
         case "sf-register":
             registerSfUserToDb(sender);
@@ -257,7 +257,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
     }
 }
 
-function getHoliday(sender, parameters, contexts) {
+function getHoliday(sender, parameters, contexts, messages) {
     
     console.log('Holiday Param: ' + JSON.stringify(parameters));
     console.log('Holiday Context: ' + JSON.stringify(contexts));
@@ -331,7 +331,7 @@ function getHoliday(sender, parameters, contexts) {
 
         });
     } else {
-        sendTextMessage(sender, "กรุณาระบุช่วงที่ต้องการเรียกดูวันหยุดด้วยค่ะ");
+        sendTextMessage(sender, messages.fulfillmentText);
     }
 }
 
