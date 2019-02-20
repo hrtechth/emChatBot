@@ -245,7 +245,7 @@ function handleDialogFlowAction(sender, action, messages, contexts, parameters) 
 
 function getHoliday(sender, parameters) {
     
-    console.log('Holiday Param: ' + parameters);
+    console.log('Holiday Param: ' + JSON.parse(parameters));
     sendTextMessage(sender, "คิดแปป");
     /*
     request.get(config.SF_APIURL + '/odata/v2/User/$count', 
