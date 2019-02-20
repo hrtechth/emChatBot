@@ -685,7 +685,6 @@ function handleMessages(messages, sender) {
 
 function handleDialogFlowResponseLine(event, response) {
     let responseText = response.fulfillmentMessages.fulfillmentText;
-
     sendTextMessageLine(event, responseText);
 }
 
@@ -746,9 +745,10 @@ async function sendToDialogFlow(sender, textString, params) {
 
 }
 
-async function sendToDialogFlowLine(event) {
+async function sendToDialogFlowLine(event, params) {
 
     //sendTypingOn(sender);
+    Console.log("User ID Line: " + event.source.userId);
 
     try {
         const sessionPath = sessionClient.sessionPath(
@@ -1351,7 +1351,7 @@ function handleEvent(event) {
 function handleMessageEvent(event) {
 
     if (event.message.text) {
-        //send message to api.ai
+        Console.log("send message to api.ai");
         sendToDialogFlowLine(event);
     }
 
