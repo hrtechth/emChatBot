@@ -267,8 +267,10 @@ function getHoliday(sender, parameters) {
 
         var begDay = dateFormat(begDate, "d mmm yyyy");
         var endDay = dateFormat(endDate, "d mmm yyyy");
+        console.log(begDay);
+        console.log(endDay);
 
-        output = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ`;
+        var output = `วันหยุดในช่วง ${begDay} ถึง ${endDay} มีดังนี้ค่ะ`;
         sendTextMessage(sender, output);
     }
     /*
